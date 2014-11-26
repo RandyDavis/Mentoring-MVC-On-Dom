@@ -2,15 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Exam 2</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>MVC Quiz</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js
+"></script>
+  <!-- <link rel="stylesheet" href="css/style.css"> -->
 </head>
 <body>
   <h2 id="test_status"></h2>
   <div id="test"></div>
 
+  <div class="quiz-container">
+      <div class="question-container">
+      </div>
+  </div>
 
+
+  <script type="text/template" class="question-template">
+    <div class="template-container">
+      <div class="question">{{= question }}</div>
+      {{ for (var i in choices) { }}
+        <input type="radio" class="radio-button" name="choice" value="{{= choices[i] }}">
+        {{= choices[i] }}
+      {{ } }}
+      <div class="answer">{{= answer }}</div>
+    </div>    
+  </script>
+  
+
+  <script  src="junk.js"></script>
+  <script  src="model.js"></script>
+  <script  src="view.js"></script>
   <script>
+    // template practice example
+    var question = {
+      question: "I am the leader of the Autobots:",
+      choices: [
+        "Star Scream",
+        "Optimus Prime",
+        "Megatron",
+        "Ratchet"
+      ],
+      answer: "Optimus Prime"
+    }
+
+    _.templateSettings = {
+       evaluate:    /\{\{(.+?)\}\}/g,
+       interpolate: /\{\{=(.+?)\}\}/g,
+       escape:      /\{\{-(.+?)\}\}/g
+    };
+
+    // Get string of template
+    var templateHtml = $('.question-template').html();
+
+    // Create generator that uses the template string
+    var templateGen = _.template(templateHtml); 
+
+    // 
+    templateGen(question);
+
+    $('.question-container').html(templateGen(question));
+
+
     // Setup Environment variables
     // var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, chD, correct = 0;
     // // Create quiz questions
@@ -37,10 +90,10 @@
     //   chC = questions[pos][3];
     //   chD = questions[pos][4];
     //   test.innerHTML = "<h3>" + question + "</h3>";
-      test.innerHTML += "<input type='radio' name='choices' value='" + chA + "'> " + chA + "<br>";
-    //   test.innerHTML += "<input type='radio' name='choices' value='B'> " + chB + "<br>";
-    //   test.innerHTML += "<input type='radio' name='choices' value='C'> " + chC + "<br>";
-    //   test.innerHTML += "<input type='radio' name='choices' value='D'> " + chD + "<br>";
+    //   test.innerHTML += "<input type='radio' name='choices' value='" + chA + "'> " + chA + "<br>";
+    //   test.innerHTML += "<input type='radio' name='choices' value='" + chB + "'> " + chB + "<br>";
+    //   test.innerHTML += "<input type='radio' name='choices' value='" + chC + "'> " + chC + "<br>";
+    //   test.innerHTML += "<input type='radio' name='choices' value='" + chD + "'> " + chD + "<br>";
     //   test.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
     // }
 
@@ -63,14 +116,20 @@
 
     // window.addEventListener("load", renderQuestion, false);
 
-    var model = new QuizModel({
-      questions: questions
-    });
-    var view = new QuizView({});
+    // var model = new QuizModel({
+    //   questions: questions
+    // });
+    // var view = new QuizView({
+    //     quizModel: model,
+    //     $el: $('.quiz-container')
+    // });
 
-    model.getCurrentQuestion();
+    // model.getCurrentQuestion();
+
+    
 
   </script>
+
 
 </body>
 </html>
